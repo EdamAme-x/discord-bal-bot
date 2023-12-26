@@ -1,40 +1,43 @@
 import { REST, Routes } from '@djs';
 import { Client, GatewayIntentBits } from '@djs';
 import "https://deno.land/std@0.191.0/dotenv/load.ts";
+import { Interaction, CommandInteraction } from '@djs';
+import { Router } from './router/router.ts';
+import { Logger } from './logger/logger.ts';
 
 const { TOKEN, CLIENT_ID } = Deno.env.toObject();
 
 const commands = [
   {
-    name: 'ping',
+    title: 'ping',
     description: 'Replies with Pong!',
+    handler: async (interaction: CommandInteraction) => {
+      await interaction.reply('Pong!');
+    },
   },
 ];
 
 const rest = new REST({ version: '10' }).setToken(TOKEN);
+const router = new Router(commands)
 
 try {
-  console.log('\x1b[33m[!] Registering commands...\x1b[0m');
-
-  await rest.put(Routes.applicationCommands(CLIENT_ID), { body: commands });
-
-  console.log('\x1b[32m[!] Successfully\x1b[0m');
-} catch (error) {
-  console.error(error);
+  Logger.log(`Command registering.`);
+  await rest.put(Routes.applicationCommands(CLIENT_ID), { body: router.routes });
+  Logger.log(`Command registered.`);
+} catch (_error) {
+  Logger.log(`Command registration failed.`, "WARN"); 
 }
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 client.on('ready', () => {
-  console.log(`\x1b[32m[!] Logged in as ${client.user?.tag}!\x1b[0m`);
+  Logger.log(`Logged in as ${Logger.bold(client.user?.tag ?? "")}`);
 });
 
-client.on('interactionCreate', async (interaction) => {
+client.on('interactionCreate', async (interaction: Interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
-  if (interaction.commandName === 'ping') {
-    await interaction.reply('Pong!');
-  }
+  await router.router(interaction.commandName, interaction);
 });
 
 client.login(TOKEN);

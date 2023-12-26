@@ -2,13 +2,13 @@ export class Logger {
     public static log(message: string, mode: "INFO" | "WARN" | "ERROR" = "INFO"): void {
         switch (mode) {
             case "INFO":
-                console.log(`${this.bold(mode)} ${message}`);
+                console.log(`[${this.bold(mode)}] ${message}`);
                 break;
             case "WARN":
-                console.log(`${this.yellow(mode)} ${message}`);
+                console.log(`[${this.yellow(mode)}] ${message}`);
                 break;
             case "ERROR":
-                console.log(`${this.red(mode)} ${message}`);
+                console.log(`[${this.red(mode)}] ${message}`);
                 break;
         }
     }

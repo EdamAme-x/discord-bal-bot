@@ -1,4 +1,4 @@
-import { Interaction } from "@djs";
+import { CommandInteraction } from "@djs";
 
 export class Router {
     public routes: {
@@ -8,7 +8,7 @@ export class Router {
 
     private handlerRouter: {
         name: string,
-        handler: <T = void>(interaction: Interaction) => T
+        handler: (interaction: CommandInteraction) => void | Promise<void>
     }[] = []
 
     private add(name: string, description: string) {
@@ -18,17 +18,21 @@ export class Router {
         })
     }
 
-    private addHandler(name: string, handler: <T = void>(interaction: Interaction) => T) {
+    private addHandler(name: string, handler: (interaction: CommandInteraction) => void | Promise<void>) {
         this.handlerRouter.push({
             name,
             handler
         })
     }
 
-    public router(name: string, interaction: Interaction) {
+    public async router(name: string, interaction: CommandInteraction) {
         for (const route of this.handlerRouter) {
             if (route.name === name) {
-                return route.handler(interaction)
+                if (route.handler.constructor.name === "AsyncFunction") {
+                    await route.handler(interaction)
+                } else {
+                    route.handler(interaction)
+                }
             }
         }
     } 
@@ -37,7 +41,7 @@ export class Router {
         routes: {
             title: string,
             description: string,
-            handler: <T = void>(interaction: Interaction) => T
+            handler: (interaction: CommandInteraction) => void | Promise<void>
         }[]
     ) {
         for (const route of routes) {
