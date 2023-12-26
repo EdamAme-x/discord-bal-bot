@@ -26,7 +26,11 @@ export const AddAdmin = {
         const kv = await Deno.openKv();
 
         try {
-            await kv.set(["admin"], [interaction.options.data[0].user?.id]);
+            if (typeof interaction.options.data[0].user?.id == "undefined") {
+                new Error("[ERROR] ユーザーを指定してください");
+            }
+
+            await kv.set(["admin", interaction.options.data[0].user?.id ?? ""], true);
             await interaction.reply("[SUCCESS] <@" + interaction.options.data[0].user?.id + "> を追加しました。");
         }catch (_error) {
             await interaction.reply("[ERROR] 追加に失敗しました。");
