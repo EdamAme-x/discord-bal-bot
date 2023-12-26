@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "dev": "deno run --watch -A main.ts"
+    "dev": "deno run --watch -A --unstable main.ts"
   },
   "imports": {
     "@djs": "npm:discord.js"

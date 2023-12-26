@@ -1,56 +1,23 @@
 import { REST, Routes } from "@djs";
-import { Client, GatewayIntentBits, EmbedBuilder } from "@djs";
-import "https://deno.land/std@0.191.0/dotenv/load.ts";
-import { Interaction, CommandInteraction } from "@djs";
+import { Client, GatewayIntentBits } from "@djs";
+import { Interaction } from "@djs";
 import { Router } from "./router/router.ts";
 import { Logger } from "./logger/logger.ts";
+import { Ping } from "./commands/ping.ts";
+import { MyInfo } from "./commands/myinfo.ts";
+import { YouInfo } from "./commands/youinfo.ts";
+import { Help } from "./commands/help.ts";
+import "https://deno.land/std@0.191.0/dotenv/load.ts";
+import { AddAdmin } from './commands/add_admin.ts';
 
 const { TOKEN, CLIENT_ID } = Deno.env.toObject();
 
-const commands = [
-  {
-    title: "ping",
-    description: "応答速度を測定",
-    handler: async (interaction: CommandInteraction) => {
-      const first = performance.now();
-      await interaction.reply("[測定中...]");
-      const second = performance.now();
-      await interaction.editReply(
-        `応答速度: ${
-          Math.floor((second - first) * 1000) / 2000
-        }ms\nCreated by @amex2189`
-      );
-    },
-  },
-  {
-    title: "myinfo",
-    description: "実行者の情報",
-    handler: async (interaction: CommandInteraction) => {
-
-      await interaction.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setColor(0x0099ff)
-            .setTitle("[MYINFO]")
-            .setURL("https://twitter.com/amex2189")
-            .setAuthor({
-              name: interaction.user.username,
-              iconURL: `https://cdn.discordapp.com/avatars/${interaction.member?.user.id}/${interaction.member?.user.avatar}.webp?size=128`,
-              url: `https://cdn.discordapp.com/avatars/${interaction.member?.user.id}/${interaction.member?.user.avatar}.webp?size=128`,
-            })
-            .setDescription(`USER_ID: ${interaction.member?.user.id}`)
-            .addFields({
-              name: "アカウント作成日時",
-              value: new Date(interaction.user.createdAt).toLocaleString("ja-JP"),
-            },{
-              name: "アカウントタイプ",
-              value: interaction.member?.user.bot ? "Bot" : "User",
-            })
-            .setTimestamp(),
-        ],
-      });
-    },
-  },
+export const commands = [
+  Ping,
+  MyInfo,
+  YouInfo,
+  Help,
+  AddAdmin
 ];
 
 const rest = new REST({ version: "10" }).setToken(TOKEN);
@@ -62,8 +29,9 @@ try {
     body: router.routes,
   });
   Logger.log(`Command registered.`);
-} catch (_error) {
+} catch (error) {
   Logger.log(`Command registration failed.`, "WARN");
+  Logger.log(error, "WARN");
 }
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
