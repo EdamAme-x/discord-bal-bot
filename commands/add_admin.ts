@@ -42,7 +42,7 @@ export const AddAdmin = {
 
         await kv.set(
           ["admin", interaction.options.data[0].user?.id ?? ""],
-          true,
+          interaction.options.data[0].user?.username ?? "",
         );
         await interaction.reply(
           "[SUCCESS] <@" + interaction.options.data[0].user?.id +

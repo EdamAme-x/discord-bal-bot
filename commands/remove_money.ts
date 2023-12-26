@@ -63,14 +63,14 @@ export const RemoveMoney = {
           interaction.options.data[0].user?.id ?? "",
         ])).value?.balance -
           parseFloat(interaction.options.data[1].value?.toString() ?? "0")),
-        id: interaction.user.id,
+        id: interaction.options.data[0].user?.id ?? "",
         created_at: new Date().getTime(),
       });
       await interaction.reply(
         `[SUCCESS] <@${interaction.user.id}> から${
           parseFloat(interaction.options.data[1].value?.toString() ?? "0")
         }人民元を削除、没収しました。 \n 残金: ${
-          (await kv.get(["wallet", interaction.user.id])).value?.balance
+          (await kv.get(["wallet", interaction.options.data[0].user?.id ?? ""])).value?.balance
         }人民元 `,
       );
     } catch (_error) {
