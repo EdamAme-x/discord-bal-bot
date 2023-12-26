@@ -32,7 +32,7 @@ export const Transfer = {
     }else {
       if ((await kv.get(["wallet", interaction.user.id])).value == null) {
         await interaction.reply(
-          "[INFO] 送金先にウォレットを作成していません。",
+          "[INFO] 貴方はウォレットを作成していません。",
         );
         return;
       }else {
@@ -74,6 +74,10 @@ export const Transfer = {
             id: interaction.options.data[0].user?.id,
             created_at: (await kv.get(["wallet", interaction.options.data[0].user?.id])).value.created_at
           })
+
+          await interaction.reply(
+            "[INFO] お金を送金しました。"
+          )
         }
       }
     }
