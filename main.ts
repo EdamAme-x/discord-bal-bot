@@ -18,6 +18,7 @@ import { DeleteAll } from "./commands/delete_all.ts";
 import { ListAdmin } from './commands/list_admin.ts';
 import { ListBalance } from './commands/list_balance.ts';
 import { ExistWallet } from './commands/exist_wallet.ts';
+import { Transfer } from './commands/transfer.ts';
 
 const { TOKEN, CLIENT_ID } = Deno.env.toObject();
 
@@ -35,7 +36,8 @@ export const commands = [
   DeleteAll,
   ListAdmin,
   ListBalance,
-  ExistWallet
+  ExistWallet,
+  Transfer
 ];
 
 const rest = new REST({ version: "10" }).setToken(TOKEN);
