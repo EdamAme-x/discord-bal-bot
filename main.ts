@@ -9,6 +9,7 @@ import { YouInfo } from "./commands/youinfo.ts";
 import { Help } from "./commands/help.ts";
 import "https://deno.land/std@0.191.0/dotenv/load.ts";
 import { AddAdmin } from './commands/add_admin.ts';
+import { RemoveAdmin } from './commands/remove_admin.ts';
 
 const { TOKEN, CLIENT_ID } = Deno.env.toObject();
 
@@ -17,7 +18,8 @@ export const commands = [
   MyInfo,
   YouInfo,
   Help,
-  AddAdmin
+  AddAdmin,
+  RemoveAdmin
 ];
 
 const rest = new REST({ version: "10" }).setToken(TOKEN);

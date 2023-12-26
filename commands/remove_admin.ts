@@ -4,16 +4,16 @@ const { ADMIN_ID } = Deno.env.toObject();
 
 import { CommandInteraction } from "@djs";
 
-export const AddAdmin = {
-  title: "add_admin",
-  description: "管理ユーザーを追加",
+export const RemoveAdmin = {
+  title: "remove_admin",
+  description: "管理ユーザーを削除",
   type: 1,
   options: [
     {
       name: "user",
       type: 6,
       required: true,
-      description: "追加したいユーザー",
+      description: "削除したいユーザー",
     }
   ],
   handler: async (interaction: CommandInteraction) => {
@@ -32,15 +32,15 @@ export const AddAdmin = {
             }
 
 
-            if ((await kv.get(["admin", interaction.options.data[0].user?.id ?? ""])).value !== null) {
-                await interaction.reply("[WARN] このユーザーは既に追加されています。");
+            if ((await kv.get(["admin", interaction.options.data[0].user?.id ?? ""])).value == null) {
+                await interaction.reply("[WARN] このユーザーは既に削除されています。");
                 return;
             }
 
-            await kv.set(["admin", interaction.options.data[0].user?.id ?? ""], true);
-            await interaction.reply("[SUCCESS] <@" + interaction.options.data[0].user?.id + "> を追加しました。");
+            await kv.delete(["admin", interaction.options.data[0].user?.id ?? ""]);
+            await interaction.reply("[SUCCESS] <@" + interaction.options.data[0].user?.id + "> を削除しました。");
         }catch (_error) {
-            await interaction.reply("[ERROR] 追加に失敗しました。");
+            await interaction.reply("[ERROR] 削除に失敗しました。");
         }
     }else {
         await interaction.reply("[ERROR] このコマンドを実行できるのはBOTを動作させているユーザーのみです。");
