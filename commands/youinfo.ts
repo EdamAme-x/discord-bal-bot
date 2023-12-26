@@ -45,5 +45,5 @@ export const YouInfo = {
       ],
     });
   },
-  tags: ["テストコマンド"]
+  tags: ["テストコマンド"],
 };

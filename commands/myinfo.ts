@@ -29,5 +29,5 @@ export const MyInfo = {
       ],
     });
   },
-  tags: ["テストコマンド"]
+  tags: ["テストコマンド"],
 };

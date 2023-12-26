@@ -8,8 +8,13 @@ import { MyInfo } from "./commands/myinfo.ts";
 import { YouInfo } from "./commands/youinfo.ts";
 import { Help } from "./commands/help.ts";
 import "https://deno.land/std@0.191.0/dotenv/load.ts";
-import { AddAdmin } from './commands/add_admin.ts';
-import { RemoveAdmin } from './commands/remove_admin.ts';
+import { AddAdmin } from "./commands/add_admin.ts";
+import { RemoveAdmin } from "./commands/remove_admin.ts";
+import { CreateWallet } from "./commands/create_wallet.ts";
+import { DeleteWallet } from "./commands/delete_wallet.ts";
+import { AddMoney } from "./commands/add_money.ts";
+import { RemoveMoney } from "./commands/remove_money.ts";
+import { DeleteAll } from "./commands/delete_all.ts";
 
 const { TOKEN, CLIENT_ID } = Deno.env.toObject();
 
@@ -19,7 +24,12 @@ export const commands = [
   YouInfo,
   Help,
   AddAdmin,
-  RemoveAdmin
+  RemoveAdmin,
+  CreateWallet,
+  DeleteWallet,
+  AddMoney,
+  RemoveMoney,
+  DeleteAll,
 ];
 
 const rest = new REST({ version: "10" }).setToken(TOKEN);

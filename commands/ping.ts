@@ -13,5 +13,5 @@ export const Ping = {
       }ms\nCreated by @amex2189`,
     );
   },
-  tags: ["テストコマンド"]
+  tags: ["テストコマンド"],
 };
