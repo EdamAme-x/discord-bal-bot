@@ -21,7 +21,7 @@ import { ListBalance } from "./commands/list_balance.ts";
 import { ExistWallet } from "./commands/exist_wallet.ts";
 import { Transfer } from "./commands/transfer.ts";
 import { MyWallet } from "./commands/my_wallet.ts";
-import { Work } from './commands/work.ts';
+import { Work } from "./commands/work.ts";
 
 const { TOKEN, CLIENT_ID } = Deno.env.toObject();
 
@@ -43,7 +43,7 @@ export const commands = [
   ExistWallet,
   Transfer,
   MyWallet,
-  Work
+  Work,
 ];
 
 const rest = new REST({ version: "10" }).setToken(TOKEN);

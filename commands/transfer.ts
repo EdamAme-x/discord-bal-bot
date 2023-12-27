@@ -88,7 +88,9 @@ export const Transfer = {
           });
 
           await interaction.reply(
-            `**[INFO]** ${interaction.options.data[1].value} 人民元を送金しました。
+            `**[INFO]** ${
+              interaction.options.data[1].value
+            } 人民元を送金しました。
 送金元: ${interaction.user.username}
 送金先: ${interaction.options.data[0].user?.username}
             `,

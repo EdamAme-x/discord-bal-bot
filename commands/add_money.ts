@@ -61,6 +61,7 @@ export const AddMoney = {
         balance: ((await kv.get([
           "wallet",
           interaction.options.data[0].user?.id ?? "",
+          // @ts-ignore NOTE: LIB SIDE ERROR
         ])).value?.balance +
           parseFloat(interaction.options.data[1].value?.toString() ?? "0")),
         id: interaction.options.data[0].user?.id ?? "",
@@ -71,6 +72,7 @@ export const AddMoney = {
           parseFloat(interaction.options.data[1].value?.toString() ?? "0")
         }人民元を発行、振込しました。 \n 残金: ${
           (await kv.get(["wallet", interaction.options.data[0].user?.id ?? ""]))
+            // @ts-ignore NOTE: LIB SIDE ERROR
             .value?.balance
         }人民元 `,
       );

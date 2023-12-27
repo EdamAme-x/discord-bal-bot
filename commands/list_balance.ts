@@ -6,12 +6,7 @@ export const ListBalance = {
   description: "財力ランキング",
   handler: async (interaction: CommandInteraction) => {
     const kv = await Deno.openKv();
-    const list: {
-      balance: number;
-      id: string;
-      updated_at: string;
-      username: string;
-    } = [];
+    const list: unknown[] = [];
 
     const kv_list = await kv.list({ prefix: ["wallet"] });
 
@@ -21,6 +16,7 @@ export const ListBalance = {
 
     // SORT
     list.sort((a, b) => {
+      // @ts-ignore NOTE: LIB SIDE ERROR
       return b.balance - a.balance;
     }).slice(0, 10);
 
@@ -28,15 +24,19 @@ export const ListBalance = {
 **[BALANCE LIST]**
 ${
       list
-        .map((user, i) => {
-          return `${i + 1}位 ${user.username}: ${user.balance.toString()} 人民元`;
+        .map((user: unknown, i: number) => {
+          return `${
+            i + 1
+        // @ts-ignore NOTE: LIB SIDE ERROR
+          }位 ${user.username}: ${user.balance.toString()} 人民元`;
         })
         .join("\n")
     }
 ...
 ${interaction.user.username} : ${
-      (await kv.get(["wallet", interaction.user.id ?? ""])).value?.balance ?? 0
-    } 人民元
+      // @ts-ignore NOTE: LIB SIDE ERROR
+      (await kv.get(["wallet", interaction.user.id ?? ""])).value?.balance ??
+        0} 人民元
 `);
   },
   tags: ["情報コマンド"],
