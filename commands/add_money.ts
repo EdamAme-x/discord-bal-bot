@@ -30,7 +30,7 @@ export const AddMoney = {
         (await kv.get(["admin", interaction.user.id])).value)
     ) {
       await interaction.reply(
-        "[ERROR] このコマンドを実行できるのはBOTを動作させているユーザーと管理者のみです。",
+        "**[ERROR]** このコマンドを実行できるのはBOTを動作させているユーザーと管理者のみです。",
       );
       return;
     }
@@ -41,7 +41,7 @@ export const AddMoney = {
           .value == null
       ) {
         await interaction.reply(
-          "[WARN] このユーザーはウォレットを作成していません。",
+          "**[WARN]** このユーザーはウォレットを作成していません。",
         );
         return;
       }
@@ -52,7 +52,7 @@ export const AddMoney = {
         parseInt(interaction.options.data[1].value?.toString());
       } catch (_e) {
         await interaction.reply(
-          "[ERROR] 振込金額は数値を入力して下さい。",
+          "**[ERROR]** 振込金額は数値を入力して下さい。",
         );
         return;
       }
@@ -64,10 +64,10 @@ export const AddMoney = {
         ])).value?.balance +
           parseFloat(interaction.options.data[1].value?.toString() ?? "0")),
         id: interaction.options.data[0].user?.id ?? "",
-        created_at: Date.now(),
+        updated_at: Date.now(),
       });
       await interaction.reply(
-        `[SUCCESS] <@${interaction.options.data[0].user?.id}> に${
+        `**[SUCCESS]** <@${interaction.options.data[0].user?.id}> に${
           parseFloat(interaction.options.data[1].value?.toString() ?? "0")
         }人民元を発行、振込しました。 \n 残金: ${
           (await kv.get(["wallet", interaction.options.data[0].user?.id ?? ""]))
@@ -75,7 +75,7 @@ export const AddMoney = {
         }人民元 `,
       );
     } catch (_error) {
-      await interaction.reply("[ERROR] 振込に失敗しました。");
+      await interaction.reply("**[ERROR]** 振込に失敗しました。");
       console.log(_error);
     }
   },

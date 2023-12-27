@@ -42,14 +42,14 @@ export const Transfer = {
           parseInt(interaction.options.data[1].value?.toString());
         } catch (_e) {
           await interaction.reply(
-            "[ERROR] 送金額は数値を入力して下さい。",
+            "**[ERROR]** 送金額は数値を入力して下さい。",
           );
           return;
         }
 
         if (parseFloat(interaction.options.data[1].value?.toString()) < 0) {
           await interaction.reply(
-            "[ERROR] 送金額は0より大きい値を入力して下さい。",
+            "**[ERROR]** 送金額は0より大きい値を入力して下さい。",
           );
           return;
         }
@@ -59,7 +59,7 @@ export const Transfer = {
             (await kv.get(["wallet", interaction.user.id])).value.balance
         ) {
           await interaction.reply(
-            "[ERROR] 送金額は残高より少ない値を入力して下さい。",
+            "**[ERROR]** 送金額は残高より少ない値を入力して下さい。",
           );
           return;
         } else {
@@ -76,16 +76,15 @@ export const Transfer = {
           await kv.set(["wallet", interaction.user.id], {
             balance: myWallet,
             id: interaction.user.id,
-            created_at:
-              (await kv.get(["wallet", interaction.user.id])).value.created_at,
+            updated_at: Date.now(),
+            username: interaction.user.username,
           });
 
           await kv.set(["wallet", interaction.options.data[0].user?.id], {
             balance: targetWallet,
             id: interaction.options.data[0].user?.id,
-            created_at:
-              (await kv.get(["wallet", interaction.options.data[0].user?.id]))
-                .value.created_at,
+            updated_at: Date.now(),
+            username: interaction.options.data[0].user?.username,
           });
 
           await interaction.reply(

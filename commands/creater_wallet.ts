@@ -22,7 +22,7 @@ export const CreaterWallet = {
           .value !== null
       ) {
         await interaction.reply(
-          "[WARN] このユーザーは既にウォレットを作成しています。",
+          "**[WARN]** このユーザーは既にウォレットを作成しています。",
         );
         return;
       }
@@ -30,15 +30,16 @@ export const CreaterWallet = {
       await kv.set(["wallet", interaction.options.data[0].user?.id], {
         balance: 50,
         id: interaction.options.data[0].user?.id,
-        created_at: Date.now(),
+        updated_at: Date.now(),
+        username: interaction.options.data[0].user?.username,
       });
       await interaction.reply(
-        `[SUCCESS] <@${
+        `**[SUCCESS]** <@${
           interaction.options.data[0].user?.id
         }> のウォレットを作成しました。 \n残金: 50人民元 `,
       );
     } catch (_error) {
-      await interaction.reply("[ERROR] 作成に失敗しました。");
+      await interaction.reply("**[ERROR]** 作成に失敗しました。");
     }
   },
   tags: ["銀行コマンド"],

@@ -16,9 +16,9 @@ export const ListAdmin = {
     }
 
     await interaction.reply(`
-[SUPER ADMIN]
+**[SUPER ADMIN]**
 <@${ADMIN_ID}>
-[ADMIN LIST]
+**[ADMIN LIST]**
 ${list.reverse().join("\n")}
     `);
   },

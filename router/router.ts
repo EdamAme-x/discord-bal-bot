@@ -58,9 +58,9 @@ export class Router {
           }
         }
       }
-    }catch (e) {
+    } catch (e) {
       console.log(e);
-      await interaction.reply(`[ERROR] 不明なエラーが発生しました。`);
+      await interaction.reply(`**[ERROR]** 不明なエラーが発生しました。`);
     }
   }
 

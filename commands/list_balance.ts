@@ -9,7 +9,8 @@ export const ListBalance = {
     const list: {
       balance: number;
       id: string;
-      created_at: string;
+      updated_at: string;
+      username: string;
     } = [];
 
     const kv_list = await kv.list({ prefix: ["wallet"] });
@@ -24,11 +25,11 @@ export const ListBalance = {
     }).slice(0, 10);
 
     await interaction.reply(`
-[BALANCE LIST]
+**[BALANCE LIST]**
 ${
       list
         .map((user, i) => {
-          return `${i + 1}位 <@${user.id}>: ${user.balance.toString()} 人民元`;
+          return `${i + 1}位 ${user.username}: ${user.balance.toString()} 人民元`;
         })
         .join("\n")
     }

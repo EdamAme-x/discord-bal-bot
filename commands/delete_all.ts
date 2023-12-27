@@ -10,7 +10,7 @@ export const DeleteAll = {
   handler: async (interaction: CommandInteraction) => {
     if (!(interaction.user.id === ADMIN_ID)) {
       await interaction.reply(
-        "[ERROR] このコマンドを実行できるのはBOTを動作させているユーザーのみです。",
+        "**[ERROR]** このコマンドを実行できるのはBOTを動作させているユーザーのみです。",
       );
       return;
     }
@@ -21,7 +21,7 @@ export const DeleteAll = {
       await kv.delete(entry.key);
     }
 
-    await interaction.reply("[SUCCESS] DBを削除しました。");
+    await interaction.reply("**[SUCCESS]** DBを削除しました。");
   },
   tags: ["管理コマンド"],
 };

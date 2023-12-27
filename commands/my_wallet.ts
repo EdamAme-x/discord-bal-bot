@@ -17,8 +17,9 @@ export const MyWallet = {
     } else {
       const value = (await kv.get(["wallet", interaction.user.id])).value;
       await interaction.reply(
-        `[MYWALLET] 
+        `**[MYWALLET]** 
 残高: ${value?.balance ?? 0} 人民元
+最終更新: ${new Date(value?.updated_at).toLocaleString("ja-JP")}
 `,
       );
     }

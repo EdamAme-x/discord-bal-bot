@@ -30,7 +30,7 @@ export const RemoveMoney = {
         (await kv.get(["admin", interaction.user.id])).value)
     ) {
       await interaction.reply(
-        "[ERROR] このコマンドを実行できるのはBOTを動作させているユーザーと管理者のみです。",
+        "**[ERROR]** このコマンドを実行できるのはBOTを動作させているユーザーと管理者のみです。",
       );
       return;
     }
@@ -41,7 +41,7 @@ export const RemoveMoney = {
           .value == null
       ) {
         await interaction.reply(
-          "[WARN] このユーザーはウォレットを作成していません。",
+          "**[WARN]** このユーザーはウォレットを作成していません。",
         );
         return;
       }
@@ -52,7 +52,7 @@ export const RemoveMoney = {
         parseInt(interaction.options.data[1].value?.toString());
       } catch (_e) {
         await interaction.reply(
-          "[ERROR] 没収金額は数値を入力して下さい。",
+          "**[ERROR]** 没収金額は数値を入力して下さい。",
         );
         return;
       }
@@ -64,10 +64,11 @@ export const RemoveMoney = {
         ])).value?.balance -
           parseFloat(interaction.options.data[1].value?.toString() ?? "0")),
         id: interaction.options.data[0].user?.id ?? "",
-        created_at: Date.now(),
+        updated_at: Date.now(),
+        username: interaction.options.data[0].user?.username ?? "",
       });
       await interaction.reply(
-        `[SUCCESS] <@${interaction.user.id}> から${
+        `**[SUCCESS]** <@${interaction.user.id}> から${
           parseFloat(interaction.options.data[1].value?.toString() ?? "0")
         }人民元を削除、没収しました。 \n 残金: ${
           (await kv.get(["wallet", interaction.options.data[0].user?.id ?? ""]))
@@ -75,7 +76,7 @@ export const RemoveMoney = {
         }人民元 `,
       );
     } catch (_error) {
-      await interaction.reply("[ERROR] 没収に失敗しました。");
+      await interaction.reply("**[ERROR]** 没収に失敗しました。");
       console.log(_error);
     }
   },
