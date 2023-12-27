@@ -50,6 +50,20 @@ export const RemoveMoney = {
         // deno-lint-ignore ban-ts-comment
         // @ts-ignore
         parseInt(interaction.options.data[1].value?.toString());
+
+        if (parseInt(interaction.options.data[1].value?.toString()) < 0) {
+          await interaction.reply(
+            "**[ERROR]** 価格は0以上の数値を入力して下さい。",
+          );
+          return;
+        }
+  
+        if (isNaN(parseInt(interaction.options.data[1].value?.toString()))) {
+          await interaction.reply(
+            "**[ERROR]** 価格は数値を入力して下さい。",
+          );
+          return;
+        }
       } catch (_e) {
         await interaction.reply(
           "**[ERROR]** 没収金額は数値を入力して下さい。",
