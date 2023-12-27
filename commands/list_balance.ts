@@ -14,7 +14,7 @@ export const ListBalance = {
       list.push(entry.value);
     }
 
-    const total = list.reduce((a, b) => {
+    const total = list.reduce((a: number, b) => {
       // @ts-ignore NOTE: LIB SIDE ERROR
       return b.balance + a;
     }, 0);
@@ -29,9 +29,9 @@ export const ListBalance = {
 **[BALANCE LIST]**
 ${
       list
-        .map((user: unknown, i: number) => {
+        // deno-lint-ignore no-explicit-any
+        .map((user: any, i: number) => {
           return `${i + 1
-            // @ts-ignore NOTE: LIB SIDE ERROR
           }位 ${
             user.username ?? "amex2189"
           }: ${user.balance.toString()} 人民元`;

@@ -66,25 +66,37 @@ export const Transfer = {
 
         if (
           parseFloat(interaction.options.data[1].value?.toString() ?? "0") >
-            // @ts-ignore NOTE: LIB SIDE ERROR
-            (await kv.get(["wallet", interaction.user.id])).value?.balance
+            ((await kv.get<{
+              balance: number;
+              id: string;
+              username: string;
+              updated_at: number;
+            }>(["wallet", interaction.user.id])).value?.balance ?? 0)
         ) {
           await interaction.reply(
             "**[ERROR]** 送金額は残高より少ない値を入力して下さい。",
           );
           return;
         } else {
-          const myWallet = (await kv.get(["wallet", interaction.user.id])).value
-            // @ts-ignore NOTE: LIB SIDE ERROR
-            ?.balance - parseFloat(
+          const myWallet = ((await kv.get<{
+            balance: number;
+            id: string;
+            username: string;
+            updated_at: number;
+          }>(["wallet", interaction.user.id])).value
+            ?.balance ?? 0) - parseFloat(
               interaction.options.data[1].value?.toString() ?? "0",
             );
-          const targetWallet = (await kv.get([
+          const targetWallet = ((await kv.get<{
+            balance: number;
+            id: string;
+            username: string;
+            updated_at: number;
+          }>([
             "wallet",
             interaction.options.data[0].user?.id ?? "",
           ]))
-            // @ts-ignore NOTE: LIB SIDE ERROR
-            .value?.balance + parseFloat(
+            .value?.balance ?? 0) + parseFloat(
               interaction.options.data[1].value?.toString() ?? "0",
             );
 

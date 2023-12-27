@@ -81,3 +81,5 @@ client.on("interactionCreate", async (interaction: Interaction) => {
 });
 
 client.login(TOKEN);
+
+Deno.serve((_req: Request) => new Response());

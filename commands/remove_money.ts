@@ -58,11 +58,15 @@ export const RemoveMoney = {
       }
 
       await kv.set(["wallet", interaction.options.data[0].user?.id ?? ""], {
-        balance: ((await kv.get([
+        balance: (((await kv.get<{
+          balance: number;
+          id: string;
+          username: string;
+          updated_at: number;
+        }>([
           "wallet",
           interaction.options.data[0].user?.id ?? "",
-          // @ts-ignore NOTE: LIB SIDE ERROR
-        ])).value?.balance -
+        ])).value?.balance ?? 0) -
           parseFloat(interaction.options.data[1].value?.toString() ?? "0")),
         id: interaction.options.data[0].user?.id ?? "",
         updated_at: Date.now(),
@@ -72,10 +76,13 @@ export const RemoveMoney = {
         `**[SUCCESS]** <@${interaction.user.id}> から${
           parseFloat(interaction.options.data[1].value?.toString() ?? "0")
         }人民元を削除、没収しました。 \n 残金: ${
-          (await kv.get(["wallet", interaction.options.data[0].user?.id ?? ""]))
-            // @ts-ignore NOTE: LIB SIDE ERROR
-
-            .value?.balance
+          (await kv.get<{
+            balance: number;
+            id: string;
+            username: string;
+            updated_at: number;
+          }>(["wallet", interaction.options.data[0].user?.id ?? ""]))
+            .value?.balance ?? 0
         }人民元 `,
       );
     } catch (_error) {

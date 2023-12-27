@@ -1,3 +1,4 @@
+// deno-lint-ignore-file
 import { CommandInteraction, Client } from "@djs";
 
 export class Router {
@@ -15,7 +16,7 @@ export class Router {
 
   private handlerRouter: {
     name: string;
-    handler: (interaction: CommandInteraction) => void | Promise<void>;
+    handler: (interaction: CommandInteraction, client: Client) => void | Promise<void>;
   }[] = [];
 
   private add(
@@ -39,7 +40,7 @@ export class Router {
 
   private addHandler(
     name: string,
-    handler: (interaction: CommandInteraction) => void | Promise<void>,
+    handler: (interaction: CommandInteraction, client: Client) => void | Promise<void>,
   ) {
     this.handlerRouter.push({
       name,
@@ -75,7 +76,8 @@ export class Router {
         required: boolean;
         description: string;
       }[];
-      handler: (interaction: CommandInteraction) => void | Promise<void>;
+      handler: (interaction: CommandInteraction, client: Client) => void | Promise<void>;
+      [key: string]: any;
     }[]
   ) {
     for (const route of routes) {

@@ -38,17 +38,24 @@ export const Work = {
         (await kv.get(["wallet", interaction.user?.id])).value !== null
       ) {
         if (
-          (await kv.get(["work", interaction.user?.id]))
-                // @ts-ignore NOTE: LIB SIDE ERROR
-
-                .value?.updated_at + 1 * 60 * 60 * 1000 > Date.now()
+          ((await kv.get<{
+            balance: number;
+            id: string;
+            username: string;
+            updated_at: number;
+          }>(["work", interaction.user?.id]))
+                .value?.updated_at ?? 0) + 1 * 60 * 60 * 1000 > Date.now()
         ) {
           await interaction.reply(
             `**[WARN]** 既に労働しました。次の労働可能時間は ${
               new Date(
-                (await kv.get(["work", interaction.user?.id])).value
-                  // @ts-ignore NOTE: LIB SIDE ERROR
-                  ?.updated_at + 1 * 60 * 60 * 1000,
+                ((await kv.get<{
+                  balance: number;
+                  id: string;
+                  username: string;
+                  updated_at: number;
+                }>(["work", interaction.user?.id])).value
+                  ?.updated_at ?? 0) + 1 * 60 * 60 * 1000,
               ).toLocaleString("ja-JP")
             }`,
           );
@@ -60,8 +67,12 @@ export const Work = {
 
       await kv.set(["wallet", interaction.user?.id], {
         balance:
-          // @ts-ignore NOTE: LIB SIDE ERROR
-          (await kv.get(["wallet", interaction.user?.id])).value?.balance +
+          ((await kv.get<{
+            balance: number;
+            id: string;
+            username: string;
+            updated_at: number;
+          }>(["wallet", interaction.user?.id])).value?.balance ?? 0) +
           work,
         id: interaction.user?.id,
         updated_at: Date.now(),
@@ -74,8 +85,12 @@ export const Work = {
 
       await interaction.reply(
         `**[SUCCESS]** <@${interaction.user?.id}> に ${work}人民元を支給しました。 \n残金: ${
-          // @ts-ignore NOTE: LIB SIDE ERROR
-          (await kv.get(["wallet", interaction.user?.id])).value?.balance ??
+          (await kv.get<{
+            balance: number;
+            id: string;
+            username: string;
+            updated_at: number;
+          }>(["wallet", interaction.user?.id])).value?.balance ??
             0}人民元 `,
       );
     } catch (_error) {
