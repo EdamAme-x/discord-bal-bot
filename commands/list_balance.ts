@@ -10,28 +10,32 @@ export const ListBalance = {
       balance: number;
       id: string;
       created_at: string;
-    } = []
+    } = [];
 
-    const kv_list = (await kv.list({ prefix: ["wallet"] }));
+    const kv_list = await kv.list({ prefix: ["wallet"] });
 
     for await (const entry of kv_list) {
-      list.push(entry.value)
+      list.push(entry.value);
     }
 
     // SORT
     list.sort((a, b) => {
-      return b.balance - a.balance
+      return b.balance - a.balance;
     }).slice(0, 10);
 
     await interaction.reply(`
 [BALANCE LIST]
-${list
-      .map((user, i) => {
-        return `${i + 1}位 <@${user.id}>: ${user.balance.toString()} 人民元`
-      })
-      .join("\n")}
+${
+      list
+        .map((user, i) => {
+          return `${i + 1}位 <@${user.id}>: ${user.balance.toString()} 人民元`;
+        })
+        .join("\n")
+    }
 ...
-${interaction.user.username} : ${(await kv.get(["wallet", interaction.user.id ?? ""])).value?.balance ?? 0} 人民元
+${interaction.user.username} : ${
+      (await kv.get(["wallet", interaction.user.id ?? ""])).value?.balance ?? 0
+    } 人民元
 `);
   },
   tags: ["情報コマンド"],

@@ -17,11 +17,11 @@ export const Transfer = {
       type: 4,
       required: true,
       description: "送金額",
-    }
+    },
   ],
   handler: async (interaction: CommandInteraction) => {
     const kv = await Deno.openKv();
-    
+
     if (
       !((await kv.get(["wallet", interaction.options.data[0].user?.id])).value)
     ) {
@@ -29,13 +29,13 @@ export const Transfer = {
         "[INFO] このユーザーはウォレットを作成していません。",
       );
       return;
-    }else {
+    } else {
       if ((await kv.get(["wallet", interaction.user.id])).value == null) {
         await interaction.reply(
           "[INFO] 貴方はウォレットを作成していません。",
         );
         return;
-      }else {
+      } else {
         try {
           // deno-lint-ignore ban-ts-comment
           // @ts-ignore
@@ -54,30 +54,46 @@ export const Transfer = {
           return;
         }
 
-        if (parseFloat(interaction.options.data[1].value?.toString()) > (await kv.get(["wallet", interaction.user.id])).value.balance) {
+        if (
+          parseFloat(interaction.options.data[1].value?.toString()) >
+            (await kv.get(["wallet", interaction.user.id])).value.balance
+        ) {
           await interaction.reply(
             "[ERROR] 送金額は残高より少ない値を入力して下さい。",
           );
           return;
-        }else {
-          const myWallet = (await kv.get(["wallet", interaction.user.id])).value.balance -= parseFloat(interaction.options.data[1].value?.toString()); 
-          const targetWallet = (await kv.get(["wallet", interaction.options.data[0].user?.id])).value.balance += parseFloat(interaction.options.data[1].value?.toString()); 
-          
+        } else {
+          const myWallet = (await kv.get(["wallet", interaction.user.id])).value
+            .balance -= parseFloat(
+              interaction.options.data[1].value?.toString(),
+            );
+          const targetWallet =
+            (await kv.get(["wallet", interaction.options.data[0].user?.id]))
+              .value.balance += parseFloat(
+                interaction.options.data[1].value?.toString(),
+              );
+
           await kv.set(["wallet", interaction.user.id], {
             balance: myWallet,
             id: interaction.user.id,
-            created_at: (await kv.get(["wallet", interaction.user.id])).value.created_at
+            created_at:
+              (await kv.get(["wallet", interaction.user.id])).value.created_at,
           });
 
           await kv.set(["wallet", interaction.options.data[0].user?.id], {
             balance: targetWallet,
             id: interaction.options.data[0].user?.id,
-            created_at: (await kv.get(["wallet", interaction.options.data[0].user?.id])).value.created_at
-          })
+            created_at:
+              (await kv.get(["wallet", interaction.options.data[0].user?.id]))
+                .value.created_at,
+          });
 
           await interaction.reply(
-            "[INFO] お金を送金しました。"
-          )
+            `[INFO] ${interaction.options.data[1].value} 人民元を送金しました。
+送金元: ${interaction.user.username}
+送金先: ${interaction.options.data[0].user?.username}
+            `,
+          );
         }
       }
     }

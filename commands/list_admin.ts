@@ -7,12 +7,12 @@ export const ListAdmin = {
   description: "管理人のリスト",
   handler: async (interaction: CommandInteraction) => {
     const kv = await Deno.openKv();
-    const list = []
+    const list = [];
 
-    const kv_list = (await kv.list({ prefix: ["admin"] }));
+    const kv_list = await kv.list({ prefix: ["admin"] });
 
     for await (const entry of kv_list) {
-      list.push(entry.value)
+      list.push(entry.value);
     }
 
     await interaction.reply(`

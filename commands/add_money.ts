@@ -64,13 +64,14 @@ export const AddMoney = {
         ])).value?.balance +
           parseFloat(interaction.options.data[1].value?.toString() ?? "0")),
         id: interaction.options.data[0].user?.id ?? "",
-        created_at: new Date().getTime(),
+        created_at: Date.now(),
       });
       await interaction.reply(
         `[SUCCESS] <@${interaction.options.data[0].user?.id}> に${
           parseFloat(interaction.options.data[1].value?.toString() ?? "0")
         }人民元を発行、振込しました。 \n 残金: ${
-          (await kv.get(["wallet", interaction.options.data[0].user?.id ?? ""])).value?.balance
+          (await kv.get(["wallet", interaction.options.data[0].user?.id ?? ""]))
+            .value?.balance
         }人民元 `,
       );
     } catch (_error) {

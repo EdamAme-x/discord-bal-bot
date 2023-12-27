@@ -48,14 +48,19 @@ export class Router {
   }
 
   public async router(name: string, interaction: CommandInteraction) {
-    for (const route of this.handlerRouter) {
-      if (route.name === name) {
-        if (route.handler.constructor.name === "AsyncFunction") {
-          await route.handler(interaction);
-        } else {
-          route.handler(interaction);
+    try {
+      for (const route of this.handlerRouter) {
+        if (route.name === name) {
+          if (route.handler.constructor.name === "AsyncFunction") {
+            await route.handler(interaction);
+          } else {
+            route.handler(interaction);
+          }
         }
       }
+    }catch (e) {
+      console.log(e);
+      await interaction.reply(`[ERROR] 不明なエラーが発生しました。`);
     }
   }
 
