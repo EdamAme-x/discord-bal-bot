@@ -17,7 +17,8 @@ export const ExistWallet = {
     const kv = await Deno.openKv();
 
     if (
-      !((await kv.get(["wallet", interaction.options.data[0].user?.id])).value)
+      !((await kv.get(["wallet", interaction.options.data[0].user?.id ?? ""]))
+        .value)
     ) {
       await interaction.reply(
         "**[INFO]** このユーザーはウォレットを作成していません。",
@@ -27,7 +28,9 @@ export const ExistWallet = {
       await interaction.reply(
         `**[INFO]** このユーザーはウォレットを作成しています。
 残高: ${
-          (await kv.get(["wallet", interaction.options.data[0].user?.id])).value
+          (await kv.get(["wallet", interaction.options.data[0].user?.id ?? ""]))
+            .value
+            // @ts-ignore NOTE: LIB SIDE ERROR
             ?.balance ?? 0
         } 人民元
 `,

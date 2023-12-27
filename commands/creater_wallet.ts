@@ -18,7 +18,7 @@ export const CreaterWallet = {
 
     try {
       if (
-        (await kv.get(["wallet", interaction.options.data[0].user?.id]))
+        (await kv.get(["wallet", interaction.options.data[0].user?.id ?? ""]))
           .value !== null
       ) {
         await interaction.reply(
@@ -27,7 +27,7 @@ export const CreaterWallet = {
         return;
       }
 
-      await kv.set(["wallet", interaction.options.data[0].user?.id], {
+      await kv.set(["wallet", interaction.options.data[0].user?.id ?? ""], {
         balance: 50,
         id: interaction.options.data[0].user?.id,
         updated_at: Date.now(),

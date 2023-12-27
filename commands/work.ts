@@ -27,8 +27,11 @@ export const Work = {
           `**[INFO]**
 ウォレットを持っていなかった為作成しました。
 残金: 50 人民元
+もう一度 \`/work\` を実行して下さい。
           `,
         );
+
+        return;
       }
 
       if (
@@ -36,13 +39,16 @@ export const Work = {
       ) {
         if (
           (await kv.get(["work", interaction.user?.id]))
-                .value?.updated_at + 6 * 60 * 60 * 1000 > Date.now()
+                // @ts-ignore NOTE: LIB SIDE ERROR
+
+                .value?.updated_at + 1 * 60 * 60 * 1000 > Date.now()
         ) {
           await interaction.reply(
             `**[WARN]** 既に労働しました。次の労働可能時間は ${
               new Date(
                 (await kv.get(["work", interaction.user?.id])).value
-                  ?.updated_at + 6 * 60 * 60 * 1000,
+                  // @ts-ignore NOTE: LIB SIDE ERROR
+                  ?.updated_at + 1 * 60 * 60 * 1000,
               ).toLocaleString("ja-JP")
             }`,
           );
@@ -54,6 +60,7 @@ export const Work = {
 
       await kv.set(["wallet", interaction.user?.id], {
         balance:
+          // @ts-ignore NOTE: LIB SIDE ERROR
           (await kv.get(["wallet", interaction.user?.id])).value?.balance +
           work,
         id: interaction.user?.id,
@@ -67,8 +74,9 @@ export const Work = {
 
       await interaction.reply(
         `**[SUCCESS]** <@${interaction.user?.id}> に ${work}人民元を支給しました。 \n残金: ${
-          (await kv.get(["wallet", interaction.user?.id])).value?.balance ?? 0
-        }人民元 `,
+          // @ts-ignore NOTE: LIB SIDE ERROR
+          (await kv.get(["wallet", interaction.user?.id])).value?.balance ??
+            0}人民元 `,
       );
     } catch (_error) {
       await interaction.reply("**[ERROR]** 作成に失敗しました。");

@@ -23,7 +23,8 @@ export const Transfer = {
     const kv = await Deno.openKv();
 
     if (
-      !((await kv.get(["wallet", interaction.options.data[0].user?.id])).value)
+      !((await kv.get(["wallet", interaction.options.data[0].user?.id ?? ""]))
+        .value)
     ) {
       await interaction.reply(
         "**[INFO]** このユーザーはウォレットを作成していません。",
@@ -47,7 +48,16 @@ export const Transfer = {
           return;
         }
 
-        if (parseFloat(interaction.options.data[1].value?.toString()) < 0) {
+        if (interaction.user.id === interaction.options.data[0].user?.id) {
+          await interaction.reply(
+            "**[ERROR]** 自分に送金することはできません。",
+          );
+          return;
+        }
+
+        if (
+          parseFloat(interaction.options.data[1].value?.toString() ?? "0") < 0
+        ) {
           await interaction.reply(
             "**[ERROR]** 送金額は0より大きい値を入力して下さい。",
           );
@@ -55,8 +65,9 @@ export const Transfer = {
         }
 
         if (
-          parseFloat(interaction.options.data[1].value?.toString()) >
-            (await kv.get(["wallet", interaction.user.id])).value.balance
+          parseFloat(interaction.options.data[1].value?.toString() ?? "0") >
+            // @ts-ignore NOTE: LIB SIDE ERROR
+            (await kv.get(["wallet", interaction.user.id])).value?.balance
         ) {
           await interaction.reply(
             "**[ERROR]** 送金額は残高より少ない値を入力して下さい。",
@@ -64,14 +75,18 @@ export const Transfer = {
           return;
         } else {
           const myWallet = (await kv.get(["wallet", interaction.user.id])).value
-            .balance -= parseFloat(
-              interaction.options.data[1].value?.toString(),
+            // @ts-ignore NOTE: LIB SIDE ERROR
+            ?.balance - parseFloat(
+              interaction.options.data[1].value?.toString() ?? "0",
             );
-          const targetWallet =
-            (await kv.get(["wallet", interaction.options.data[0].user?.id]))
-              .value.balance += parseFloat(
-                interaction.options.data[1].value?.toString(),
-              );
+          const targetWallet = (await kv.get([
+            "wallet",
+            interaction.options.data[0].user?.id ?? "",
+          ]))
+            // @ts-ignore NOTE: LIB SIDE ERROR
+            .value?.balance + parseFloat(
+              interaction.options.data[1].value?.toString() ?? "0",
+            );
 
           await kv.set(["wallet", interaction.user.id], {
             balance: myWallet,
@@ -80,7 +95,7 @@ export const Transfer = {
             username: interaction.user.username,
           });
 
-          await kv.set(["wallet", interaction.options.data[0].user?.id], {
+          await kv.set(["wallet", interaction.options.data[0].user?.id ?? ""], {
             balance: targetWallet,
             id: interaction.options.data[0].user?.id,
             updated_at: Date.now(),

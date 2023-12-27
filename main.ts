@@ -22,6 +22,10 @@ import { ExistWallet } from "./commands/exist_wallet.ts";
 import { Transfer } from "./commands/transfer.ts";
 import { MyWallet } from "./commands/my_wallet.ts";
 import { Work } from "./commands/work.ts";
+import { VenAdd } from "./commands/ven_add.ts";
+import { VenRemove } from "./commands/ven_remove.ts";
+import { ListVen } from "./commands/list_ven.ts";
+import { VenBuy } from './commands/ven_buy.ts';
 
 const { TOKEN, CLIENT_ID } = Deno.env.toObject();
 
@@ -44,6 +48,10 @@ export const commands = [
   Transfer,
   MyWallet,
   Work,
+  VenAdd,
+  VenRemove,
+  ListVen,
+  VenBuy
 ];
 
 const rest = new REST({ version: "10" }).setToken(TOKEN);
@@ -69,7 +77,7 @@ client.on("ready", () => {
 client.on("interactionCreate", async (interaction: Interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
-  await router.router(interaction.commandName, interaction);
+  await router.router(interaction.commandName, interaction, client);
 });
 
 client.login(TOKEN);

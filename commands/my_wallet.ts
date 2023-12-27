@@ -18,11 +18,15 @@ export const MyWallet = {
       const value = (await kv.get(["wallet", interaction.user.id])).value;
       await interaction.reply(
         `**[MYWALLET]** 
-残高: ${value?.balance ?? 0} 人民元
-最終更新: ${new Date(value?.updated_at).toLocaleString("ja-JP")}
+残高: ${
+          // @ts-ignore NOTE: LIB SIDE ERROR
+          value?.balance ?? 0} 人民元
+最終更新: ${
+          // @ts-ignore NOTE: LIB SIDE ERROR
+          new Date(value?.updated_at).toLocaleString("ja-JP")}
 `,
       );
     }
   },
-  tags: ["管理コマンド"],
+  tags: ["銀行コマンド"],
 };

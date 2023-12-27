@@ -14,6 +14,11 @@ export const ListBalance = {
       list.push(entry.value);
     }
 
+    const total = list.reduce((a, b) => {
+      // @ts-ignore NOTE: LIB SIDE ERROR
+      return b.balance + a;
+    }, 0);
+
     // SORT
     list.sort((a, b) => {
       // @ts-ignore NOTE: LIB SIDE ERROR
@@ -25,10 +30,11 @@ export const ListBalance = {
 ${
       list
         .map((user: unknown, i: number) => {
-          return `${
-            i + 1
-        // @ts-ignore NOTE: LIB SIDE ERROR
-          }位 ${user.username}: ${user.balance.toString()} 人民元`;
+          return `${i + 1
+            // @ts-ignore NOTE: LIB SIDE ERROR
+          }位 ${
+            user.username ?? "amex2189"
+          }: ${user.balance.toString()} 人民元`;
         })
         .join("\n")
     }
@@ -37,6 +43,7 @@ ${interaction.user.username} : ${
       // @ts-ignore NOTE: LIB SIDE ERROR
       (await kv.get(["wallet", interaction.user.id ?? ""])).value?.balance ??
         0} 人民元
+人民総額: ${total} 人民元
 `);
   },
   tags: ["情報コマンド"],
