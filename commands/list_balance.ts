@@ -6,7 +6,7 @@ export const ListBalance = {
   description: "財力ランキング",
   handler: async (interaction: CommandInteraction) => {
     const kv = await Deno.openKv();
-    const list: unknown[] = [];
+    let list: unknown[] = [];
 
     const kv_list = await kv.list({ prefix: ["wallet"] });
 
@@ -23,7 +23,9 @@ export const ListBalance = {
     list.sort((a, b) => {
       // @ts-ignore NOTE: LIB SIDE ERROR
       return b.balance - a.balance;
-    }).slice(0, 9);
+    })
+
+    list = list.slice(0, 10);
 
     await interaction.reply(`
 **[BALANCE LIST]**

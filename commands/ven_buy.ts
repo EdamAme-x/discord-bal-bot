@@ -83,7 +83,7 @@ export const VenBuy = {
 
         // deno-lint-ignore ban-ts-comment
         // @ts-ignore
-        const member = guild.members.find((m) => m.id === "User id");
+        const member = guild.members.find((m) => m.id === interaction.user.id);
         
         member.roles.cache.add(roleId)
 

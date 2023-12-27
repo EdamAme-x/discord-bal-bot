@@ -27,6 +27,7 @@ import { VenRemove } from "./commands/ven_remove.ts";
 import { ListVen } from "./commands/list_ven.ts";
 import { VenBuy } from "./commands/ven_buy.ts";
 import { VenRole } from './commands/ven_role.ts';
+import { VenReset } from './commands/ven_reset.ts';
 
 const { TOKEN, CLIENT_ID } = Deno.env.toObject();
 
@@ -53,7 +54,8 @@ export const commands = [
   VenRemove,
   ListVen,
   VenBuy,
-  VenRole
+  VenRole,
+  VenReset
 ];
 
 const rest = new REST({ version: "10" }).setToken(TOKEN);

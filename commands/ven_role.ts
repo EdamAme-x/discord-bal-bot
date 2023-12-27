@@ -59,7 +59,7 @@ export const VenRole = {
     await interaction.reply(`**[SUCCESS]** 自販機にロール商品を追加しました。
 販売ロール: ${base.title}
 販売ID: ${base.id}
-販売価格: ${base.price}
+販売価格: ${base.price} 人民元
 
 購入時に自動的に付与されます。
 `);

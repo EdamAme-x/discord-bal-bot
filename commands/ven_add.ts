@@ -66,7 +66,7 @@ export const VenAdd = {
 販売元: <@${base.user_id}>
 販売名: ${base.title}
 販売ID: ${base.id}
-販売価格: ${base.price}
+販売価格: ${base.price} 人民元
 
 購入時に販売元に自動的に通知されます。
 `);

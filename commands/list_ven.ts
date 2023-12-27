@@ -23,11 +23,19 @@ export const ListVen = {
       user_id: string;
     }>({ prefix: ["ven"] });
     const list = [];
+    let rawList = []
 
     for await (const entry of ven_list) {
-      list.push(
-        `ID: ${entry.value.id} 「**${entry.value.title}**」 \n価格: ${entry.value.price}人民元 販売元UID: ${entry.value.user_id}\n`,
+      rawList.push(
+        entry.value
       );
+    }
+
+    // @ts-ignore NOTE: LIB SIDE ERROR
+    rawList.sort((a, b) => a.price - b.price);
+
+    for (let i = 0; i < rawList.length; i++) {
+      list.push(`ID: ${rawList[i].id} 「**${rawList[i].title}**」 \n価格: ${rawList[i].price}人民元 販売元UID: ${rawList[i].user_id}\n`,)
     }
 
     let currentPage = 0;
@@ -51,7 +59,7 @@ export const ListVen = {
       .setColor(0xeb2339)
       .setTitle("自販機 商品一覧")
       .setDescription(`
-${list.join("\n")}
+${list.slice(currentPage * 10, currentPage * 10 + 10).join("\n")}
 
 \`/ven_buy\` でIDを指定して購入可能です。
 `)
