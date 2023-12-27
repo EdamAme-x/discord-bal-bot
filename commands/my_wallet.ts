@@ -11,7 +11,7 @@ export const MyWallet = {
       !((await kv.get(["wallet", interaction.user?.id])).value)
     ) {
       await interaction.reply(
-        "[INFO] 貴方はウォレットを作成していません。",
+        "**[INFO]** 貴方はウォレットを作成していません。 `/create_wallet` を実行してウォレットを作成して下さい。",
       );
       return;
     } else {

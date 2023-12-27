@@ -20,12 +20,12 @@ export const ExistWallet = {
       !((await kv.get(["wallet", interaction.options.data[0].user?.id])).value)
     ) {
       await interaction.reply(
-        "[INFO] このユーザーはウォレットを作成していません。",
+        "**[INFO]** このユーザーはウォレットを作成していません。",
       );
       return;
     } else {
       await interaction.reply(
-        `[INFO] このユーザーはウォレットを作成しています。
+        `**[INFO]** このユーザーはウォレットを作成しています。
 残高: ${
           (await kv.get(["wallet", interaction.options.data[0].user?.id])).value
             ?.balance ?? 0

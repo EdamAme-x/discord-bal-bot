@@ -26,13 +26,13 @@ export const Transfer = {
       !((await kv.get(["wallet", interaction.options.data[0].user?.id])).value)
     ) {
       await interaction.reply(
-        "[INFO] このユーザーはウォレットを作成していません。",
+        "**[INFO]** このユーザーはウォレットを作成していません。",
       );
       return;
     } else {
       if ((await kv.get(["wallet", interaction.user.id])).value == null) {
         await interaction.reply(
-          "[INFO] 貴方はウォレットを作成していません。",
+          "**[INFO]** 貴方はウォレットを作成していません。",
         );
         return;
       } else {
@@ -88,7 +88,7 @@ export const Transfer = {
           });
 
           await interaction.reply(
-            `[INFO] ${interaction.options.data[1].value} 人民元を送金しました。
+            `**[INFO]** ${interaction.options.data[1].value} 人民元を送金しました。
 送金元: ${interaction.user.username}
 送金先: ${interaction.options.data[0].user?.username}
             `,
