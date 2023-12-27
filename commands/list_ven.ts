@@ -31,11 +31,34 @@ export const ListVen = {
       );
     }
 
+    if (rawList.length === 0) {
+      await interaction.reply("**[ERROR]** 自販機に商品はありません。");
+      return;
+    }
+
     // @ts-ignore NOTE: LIB SIDE ERROR
     rawList.sort((a, b) => a.price - b.price);
 
     for (let i = 0; i < rawList.length; i++) {
       list.push(`ID: ${rawList[i].id} 「**${rawList[i].title}**」 \n価格: ${rawList[i].price}人民元 販売元UID: ${rawList[i].user_id}\n`,)
+    }
+
+    if (rawList.length < 11) {
+      const embed = new EmbedBuilder()
+      .setColor(0xeb2339)
+      .setTitle("自販機 商品一覧")
+      .setDescription(`
+${list.join("\n")}
+
+\`/ven_buy\` でIDを指定して購入可能です。
+`)
+      .setTimestamp();
+
+    await interaction.reply({
+      embeds: [embed]
+    });
+
+      return;
     }
 
     let currentPage = 0;
@@ -51,9 +74,9 @@ export const ListVen = {
     if (currentPage > 0) {
       actionRow.addComponents(backButton);
     }
-    if (currentPage < Math.floor(list.length / 10)) {
+    if (currentPage < Math.floor((list.length - 1) / 10)) {
       actionRow.addComponents(nextButton);
-    }
+    }    
 
     const embed = new EmbedBuilder()
       .setColor(0xeb2339)

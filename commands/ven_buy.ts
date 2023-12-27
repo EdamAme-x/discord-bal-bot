@@ -98,6 +98,13 @@ export const VenBuy = {
       }
       return;
     }
+
+    if (target.user_id === interaction.user?.id) {
+      await interaction.reply(
+        `**[ERROR]** 自分自身の商品は購入できません。`,
+      );
+      return;
+    }
     
     try {
       client.users.cache.get(target.user_id)?.send(`

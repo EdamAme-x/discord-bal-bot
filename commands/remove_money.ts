@@ -73,7 +73,7 @@ export const RemoveMoney = {
         username: interaction.options.data[0].user?.username ?? "",
       });
       await interaction.reply(
-        `**[SUCCESS]** <@${interaction.user.id}> から${
+        `**[SUCCESS]** <@${interaction.options.data[0].user?.id}> から${
           parseFloat(interaction.options.data[1].value?.toString() ?? "0")
         }人民元を削除、没収しました。 \n 残金: ${
           (await kv.get<{

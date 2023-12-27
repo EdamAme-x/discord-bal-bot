@@ -41,6 +41,8 @@ export const VenReset = {
     for await (const ven of venList) {
       await kv.delete(ven.key);
     }
+
+    await interaction.reply(`**[SUCCESS]** 自販機商品を初期化しました。`);
   },
   tags: ["管理コマンド"],
 };

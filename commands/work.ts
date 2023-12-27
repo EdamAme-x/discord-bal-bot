@@ -47,7 +47,7 @@ export const Work = {
                 .value?.updated_at ?? 0) + 1 * 60 * 60 * 1000 > Date.now()
         ) {
           await interaction.reply(
-            `**[WARN]** 既に労働しました。次の労働可能時間は ${
+            `**[WARN]** もう働きました。 次の労働可能時間は ${
               new Date(
                 ((await kv.get<{
                   balance: number;
