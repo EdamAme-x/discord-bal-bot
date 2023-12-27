@@ -25,7 +25,8 @@ import { Work } from "./commands/work.ts";
 import { VenAdd } from "./commands/ven_add.ts";
 import { VenRemove } from "./commands/ven_remove.ts";
 import { ListVen } from "./commands/list_ven.ts";
-import { VenBuy } from './commands/ven_buy.ts';
+import { VenBuy } from "./commands/ven_buy.ts";
+import { VenRole } from './commands/ven_role.ts';
 
 const { TOKEN, CLIENT_ID } = Deno.env.toObject();
 
@@ -51,7 +52,8 @@ export const commands = [
   VenAdd,
   VenRemove,
   ListVen,
-  VenBuy
+  VenBuy,
+  VenRole
 ];
 
 const rest = new REST({ version: "10" }).setToken(TOKEN);
@@ -75,6 +77,7 @@ client.on("ready", () => {
 });
 
 client.on("interactionCreate", async (interaction: Interaction) => {
+  // Command
   if (!interaction.isChatInputCommand()) return;
 
   await router.router(interaction.commandName, interaction, client);
@@ -82,4 +85,4 @@ client.on("interactionCreate", async (interaction: Interaction) => {
 
 client.login(TOKEN);
 
-Deno.serve((_req: Request) => new Response());
+Deno.serve((_req: Request) => new Response(Date.now().toString(36)));

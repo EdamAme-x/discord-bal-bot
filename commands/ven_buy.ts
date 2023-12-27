@@ -1,4 +1,4 @@
-import { CommandInteraction, Client } from "@djs";
+import { Client, CommandInteraction } from "@djs";
 import "https://deno.land/std@0.191.0/dotenv/load.ts";
 import { toAjail } from "./../lib/hash.ts";
 
@@ -73,16 +73,42 @@ export const VenBuy = {
       return;
     }
 
+    if (target.user_id.startsWith("&")) {
+      const roleId = target.user_id.slice(1);
+
+      try {
+
+        // patch role
+        const guild = client.guilds.cache.get(interaction.guildId!);
+
+        // deno-lint-ignore ban-ts-comment
+        // @ts-ignore
+        const member = guild.members.find((m) => m.id === "User id");
+        
+        member.roles.cache.add(roleId)
+
+        await interaction.reply(
+          `**[SUCCESS]** ${target.title} を購入しました。 残高：${user.balance - target.price}人民元`,
+        )
+  
+      }catch(_error) {
+        await interaction.reply(
+          `**[ERROR]** 購入に失敗しました。既にロールを持っている or 既に消されている可能性があります。`,
+        )
+      }
+      return;
+    }
+    
     try {
       client.users.cache.get(target.user_id)?.send(`
 SERVER_ID: ${interaction.guildId} にて商品 ${target.title} が購入されました。
 購入者: <@${interaction.user?.id}>
 `);
     } catch (_error) {
-        console.log(_error);
+      console.log(_error);
       await interaction.reply(
         `**[ERROR]** 送信に失敗しました。 販売元<@${target.user_id}>がDM開放をしていない事が原因の可能性が有ります。`,
-      )
+      );
 
       return;
     }

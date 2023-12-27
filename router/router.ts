@@ -1,5 +1,5 @@
 // deno-lint-ignore-file
-import { CommandInteraction, Client } from "@djs";
+import { Client, CommandInteraction } from "@djs";
 
 export class Router {
   public routes: {
@@ -16,7 +16,10 @@ export class Router {
 
   private handlerRouter: {
     name: string;
-    handler: (interaction: CommandInteraction, client: Client) => void | Promise<void>;
+    handler: (
+      interaction: CommandInteraction,
+      client: Client,
+    ) => void | Promise<void>;
   }[] = [];
 
   private add(
@@ -40,7 +43,10 @@ export class Router {
 
   private addHandler(
     name: string,
-    handler: (interaction: CommandInteraction, client: Client) => void | Promise<void>,
+    handler: (
+      interaction: CommandInteraction,
+      client: Client,
+    ) => void | Promise<void>,
   ) {
     this.handlerRouter.push({
       name,
@@ -48,7 +54,11 @@ export class Router {
     });
   }
 
-  public async router(name: string, interaction: CommandInteraction, client: Client) {
+  public async router(
+    name: string,
+    interaction: CommandInteraction,
+    client: Client,
+  ) {
     try {
       for (const route of this.handlerRouter) {
         if (route.name === name) {
@@ -61,7 +71,6 @@ export class Router {
       }
     } catch (e) {
       console.log(e);
-      await interaction.reply(`**[ERROR]** 不明なエラーが発生しました。`);
     }
   }
 
@@ -76,9 +85,12 @@ export class Router {
         required: boolean;
         description: string;
       }[];
-      handler: (interaction: CommandInteraction, client: Client) => void | Promise<void>;
+      handler: (
+        interaction: CommandInteraction,
+        client: Client,
+      ) => void | Promise<void>;
       [key: string]: any;
-    }[]
+    }[],
   ) {
     for (const route of routes) {
       this.add(

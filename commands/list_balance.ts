@@ -23,7 +23,7 @@ export const ListBalance = {
     list.sort((a, b) => {
       // @ts-ignore NOTE: LIB SIDE ERROR
       return b.balance - a.balance;
-    }).slice(0, 10);
+    }).slice(0, 9);
 
     await interaction.reply(`
 **[BALANCE LIST]**
@@ -31,8 +31,7 @@ ${
       list
         // deno-lint-ignore no-explicit-any
         .map((user: any, i: number) => {
-          return `${i + 1
-          }位 ${
+          return `${i + 1}位 ${
             user.username ?? "amex2189"
           }: ${user.balance.toString()} 人民元`;
         })

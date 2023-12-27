@@ -1,4 +1,4 @@
-import { CommandInteraction } from "@djs";
+import { CommandInteraction, EmbedBuilder } from "@djs";
 import "https://deno.land/std@0.191.0/dotenv/load.ts";
 
 export const MyWallet = {
@@ -21,14 +21,25 @@ export const MyWallet = {
         username: string;
         updated_at: number;
       }>(["wallet", interaction.user.id])).value;
-      await interaction.reply(
-        `**[MYWALLET]** 
-残高: ${
-          value?.balance ?? 0} 人民元
-最終更新: ${
-          new Date(value?.updated_at ?? Date.now()).toLocaleString("ja-JP")}
-`,
-      );
+
+      await interaction.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setTitle("[MYWALLET]")
+            .addFields([
+              {
+                name: "残高",
+                value: `${value?.balance ?? 0} 人民元`,
+              },
+              {
+                name: "最終更新",
+                value: new Date(
+                  value?.updated_at ?? Date.now(),
+                ).toLocaleString("ja-JP"),
+              },
+            ]),
+        ],
+      });
     }
   },
   tags: ["銀行コマンド"],

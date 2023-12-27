@@ -39,11 +39,11 @@ export const Work = {
       ) {
         if (
           ((await kv.get<{
-            balance: number;
-            id: string;
-            username: string;
-            updated_at: number;
-          }>(["work", interaction.user?.id]))
+                balance: number;
+                id: string;
+                username: string;
+                updated_at: number;
+              }>(["work", interaction.user?.id]))
                 .value?.updated_at ?? 0) + 1 * 60 * 60 * 1000 > Date.now()
         ) {
           await interaction.reply(
@@ -66,13 +66,12 @@ export const Work = {
       const work = genInt(15, 25);
 
       await kv.set(["wallet", interaction.user?.id], {
-        balance:
-          ((await kv.get<{
-            balance: number;
-            id: string;
-            username: string;
-            updated_at: number;
-          }>(["wallet", interaction.user?.id])).value?.balance ?? 0) +
+        balance: ((await kv.get<{
+          balance: number;
+          id: string;
+          username: string;
+          updated_at: number;
+        }>(["wallet", interaction.user?.id])).value?.balance ?? 0) +
           work,
         id: interaction.user?.id,
         updated_at: Date.now(),
@@ -91,7 +90,8 @@ export const Work = {
             username: string;
             updated_at: number;
           }>(["wallet", interaction.user?.id])).value?.balance ??
-            0}人民元 `,
+            0
+        }人民元 `,
       );
     } catch (_error) {
       await interaction.reply("**[ERROR]** 作成に失敗しました。");
