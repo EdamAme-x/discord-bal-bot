@@ -4,22 +4,22 @@ const { ADMIN_ID } = Deno.env.toObject();
 
 import { CommandInteraction } from "@djs";
 
-export const AddMoney = {
-  title: "add_money",
-  description: "人民元を発行、振込",
+export const RemovePower = {
+  title: "remove_power",
+  description: "UserIdで人民元を削除、没収",
   type: 1,
   options: [
     {
-      name: "user",
-      type: 6,
+      name: "user_id",
+      type: 3,
       required: true,
-      description: "振込したいユーザー",
+      description: "削除したいユーザーID",
     },
     {
       name: "amount",
       type: 4,
       required: true,
-      description: "振込金額",
+      description: "没収金額",
     },
   ],
   handler: async (interaction: CommandInteraction) => {
@@ -37,7 +37,7 @@ export const AddMoney = {
 
     try {
       if (
-        (await kv.get(["wallet", interaction.options.data[0].user?.id ?? ""]))
+        (await kv.get(["wallet", interaction.options.data[0].value ?? ""]))
           .value == null
       ) {
         await interaction.reply(
@@ -52,12 +52,12 @@ export const AddMoney = {
         parseInt(interaction.options.data[1].value?.toString());
       } catch (_e) {
         await interaction.reply(
-          "**[ERROR]** 振込金額は数値を入力して下さい。",
+          "**[ERROR]** 没収金額は数値を入力して下さい。",
         );
         return;
       }
 
-      await kv.set(["wallet", interaction.options.data[0].user?.id ?? ""], {
+      await kv.set(["wallet", interaction.options.data[0].value ?? ""], {
         balance: (((await kv.get<{
           balance: number;
           id: string;
@@ -65,28 +65,28 @@ export const AddMoney = {
           updated_at: number;
         }>([
           "wallet",
-          interaction.options.data[0].user?.id ?? "",
-        ])).value?.balance ?? 0) +
+          interaction.options.data[0].value ?? "",
+        ])).value?.balance ?? 0) -
           parseFloat(interaction.options.data[1].value?.toString() ?? "0")),
-        id: interaction.options.data[0].user?.id ?? "",
+        id: interaction.options.data[0].value?? "",
         updated_at: Date.now(),
-        username: interaction.options.data[0].user?.username ?? "",
+        username: interaction.options.data[0].value ?? "",
       });
       await interaction.reply(
-        `**[SUCCESS]** <@${interaction.options.data[0].user?.id}> に${
+        `**[SUCCESS]** <@${interaction.options.data[0].value}> から${
           parseFloat(interaction.options.data[1].value?.toString() ?? "0")
-        }人民元を発行、振込しました。 \n 残金: ${
+        }人民元を削除、没収しました。 \n 残金: ${
           (await kv.get<{
             balance: number;
             id: string;
             username: string;
             updated_at: number;
-          }>(["wallet", interaction.options.data[0].user?.id ?? ""]))
-            .value?.balance
+          }>(["wallet", interaction.options.data[0].value ?? ""]))
+            .value?.balance ?? 0
         }人民元 `,
       );
     } catch (_error) {
-      await interaction.reply("**[ERROR]** 振込に失敗しました。");
+      await interaction.reply("**[ERROR]** 没収に失敗しました。");
       console.log(_error);
     }
   },

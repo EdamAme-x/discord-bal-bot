@@ -14,6 +14,7 @@ export const ListBalance = {
       list.push(entry.value);
     }
 
+
     const total = list.reduce((a: number, b) => {
       // @ts-ignore NOTE: LIB SIDE ERROR
       return b.balance + a;
