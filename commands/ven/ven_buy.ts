@@ -1,6 +1,6 @@
 import { Client, CommandInteraction } from "@djs";
 import "https://deno.land/std@0.191.0/dotenv/load.ts";
-import { toAjail } from "./../lib/hash.ts";
+import { toAjail } from "../../lib/hash.ts";
 
 const { ADMIN_ID } = Deno.env.toObject();
 

@@ -1,5 +1,5 @@
 import { CommandInteraction, EmbedBuilder } from "@djs";
-import { commands } from "../main.ts";
+import { commands } from "../../main.ts";
 
 export const Help = {
   title: "help",
