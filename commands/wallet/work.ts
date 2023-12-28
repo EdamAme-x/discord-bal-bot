@@ -41,7 +41,7 @@ export const Work = {
           ((await kv.get<{
                 updated_at: number;
               }>(["work", interaction.user?.id]))
-                .value?.updated_at ?? 0) + 1 * 60 * 60 * 1000 > Date.now()
+                .value?.updated_at ?? 0) + 3 * 60 * 60 * 1000 > Date.now()
         ) {
           await interaction.reply(
             `**[WARN]** もう働きました。 次の労働可能時間は ${
@@ -49,7 +49,7 @@ export const Work = {
                 ((await kv.get<{
                   updated_at: number;
                 }>(["work", interaction.user?.id])).value
-                  ?.updated_at ?? 0) + 1 * 60 * 60 * 1000,
+                  ?.updated_at ?? 0) + 3 * 60 * 60 * 1000,
               ).toLocaleString("ja-JP")
             }`,
           );

@@ -7,6 +7,9 @@ export const DeleteWallet = {
   handler: async (interaction: CommandInteraction) => {
     const kv = await Deno.openKv();
 
+    await interaction.reply("メンテナンス中 リセットされるのは盲点だったわ()");
+    return
+
     try {
       if ((await kv.get(["wallet", interaction.user.id])).value == null) {
         await interaction.reply(
