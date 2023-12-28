@@ -46,14 +46,14 @@ export const VenAdd = {
       // @ts-ignore
       parseInt(interaction.options.data[2].value?.toString());
 
-      if (parseInt(interaction.options.data[2].value?.toString()) < 0) {
+      if (parseInt(interaction.options.data[2].value?.toString() ?? "0") < 0) {
         await interaction.reply(
           "**[ERROR]** 価格は0以上の数値を入力して下さい。",
         );
         return;
       }
 
-      if (isNaN(parseInt(interaction.options.data[2].value?.toString()))) {
+      if (isNaN(parseInt(interaction.options.data[2].value?.toString() ?? "_NaN_"))) {
         await interaction.reply(
           "**[ERROR]** 価格は数値を入力して下さい。",
         );
