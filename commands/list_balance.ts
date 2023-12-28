@@ -14,7 +14,6 @@ export const ListBalance = {
       list.push(entry.value);
     }
 
-
     const total = list.reduce((a: number, b) => {
       // @ts-ignore NOTE: LIB SIDE ERROR
       return b.balance + a;
@@ -24,7 +23,7 @@ export const ListBalance = {
     list.sort((a, b) => {
       // @ts-ignore NOTE: LIB SIDE ERROR
       return b.balance - a.balance;
-    })
+    });
 
     list = list.slice(0, 10);
 

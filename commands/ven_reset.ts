@@ -28,7 +28,6 @@ export const VenReset = {
       return;
     }
 
-    
     if (!interaction.options.data[0].value) {
       await interaction.reply(
         "**[ERROR]** Trueと入力して下さい。",
@@ -36,7 +35,7 @@ export const VenReset = {
       return;
     }
 
-    const venList = (await kv.list({ prefix: ["ven"] }));
+    const venList = await kv.list({ prefix: ["ven"] });
 
     for await (const ven of venList) {
       await kv.delete(ven.key);

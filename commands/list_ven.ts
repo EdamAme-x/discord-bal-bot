@@ -23,11 +23,11 @@ export const ListVen = {
       user_id: string;
     }>({ prefix: ["ven"] });
     const list = [];
-    let rawList = []
+    let rawList = [];
 
     for await (const entry of ven_list) {
       rawList.push(
-        entry.value
+        entry.value,
       );
     }
 
@@ -40,23 +40,27 @@ export const ListVen = {
     rawList.sort((a, b) => a.price - b.price);
 
     for (let i = 0; i < rawList.length; i++) {
-      list.push(`ID: ${rawList[i].id} 「**${rawList[i].title}**」 \n価格: ${rawList[i].price}人民元 販売元UID: ${rawList[i].user_id}\n`,)
+      list.push(
+        `ID: ${rawList[i].id} 「**${rawList[i].title}**」 \n価格: ${
+          rawList[i].price
+        }人民元 販売元UID: ${rawList[i].user_id}\n`,
+      );
     }
 
     if (rawList.length < 11) {
       const embed = new EmbedBuilder()
-      .setColor(0xeb2339)
-      .setTitle("自販機 商品一覧")
-      .setDescription(`
+        .setColor(0xeb2339)
+        .setTitle("自販機 商品一覧")
+        .setDescription(`
 ${list.join("\n")}
 
 \`/ven_buy\` でIDを指定して購入可能です。
 `)
-      .setTimestamp();
+        .setTimestamp();
 
-    await interaction.reply({
-      embeds: [embed]
-    });
+      await interaction.reply({
+        embeds: [embed],
+      });
 
       return;
     }
@@ -76,7 +80,7 @@ ${list.join("\n")}
     }
     if (currentPage < Math.floor((list.length - 1) / 10)) {
       actionRow.addComponents(nextButton);
-    }    
+    }
 
     const embed = new EmbedBuilder()
       .setColor(0xeb2339)
@@ -100,7 +104,15 @@ ${list.slice(currentPage * 10, currentPage * 10 + 10).join("\n")}
       time: 30000,
     });
 
+    let nowLoad = false;
+
     collector.on("collect", async (i) => {
+      if (nowLoad) {
+        return;
+      }
+
+      nowLoad = true;
+
       if (i.customId === nextButtonId) {
         currentPage += 1;
       } else if (i.customId === backButtonId) {
@@ -133,6 +145,8 @@ ${currentList.join("\n")}
         embeds: [updatedEmbed],
         components: [updatedActionRow],
       });
+
+      nowLoad = false;
     });
 
     collector.on("end", () => {

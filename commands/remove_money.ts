@@ -57,7 +57,7 @@ export const RemoveMoney = {
           );
           return;
         }
-  
+
         if (isNaN(parseInt(interaction.options.data[1].value?.toString()))) {
           await interaction.reply(
             "**[ERROR]** 価格は数値を入力して下さい。",

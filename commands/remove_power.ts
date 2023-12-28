@@ -68,7 +68,7 @@ export const RemovePower = {
           interaction.options.data[0].value ?? "",
         ])).value?.balance ?? 0) -
           parseFloat(interaction.options.data[1].value?.toString() ?? "0")),
-        id: interaction.options.data[0].value?? "",
+        id: interaction.options.data[0].value ?? "",
         updated_at: Date.now(),
         username: interaction.options.data[0].value ?? "",
       });
