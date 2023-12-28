@@ -23,7 +23,7 @@ export const ListVen = {
       user_id: string;
     }>({ prefix: ["ven"] });
     const list = [];
-    let rawList = [];
+    const rawList = [];
 
     for await (const entry of ven_list) {
       rawList.push(

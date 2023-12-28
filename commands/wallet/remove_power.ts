@@ -71,7 +71,10 @@ export const RemovePower = {
         `**[SUCCESS]** <@${interaction.options.data[0].value}> から${
           parseFloat(interaction.options.data[1].value?.toString() ?? "0")
         }人民元を削除、没収しました。 \n 残金: ${
-          (await kv.get<Wallet>(["wallet", interaction.options.data[0].value ?? ""]))
+          (await kv.get<Wallet>([
+            "wallet",
+            interaction.options.data[0].value ?? "",
+          ]))
             .value?.balance ?? 0
         }人民元 `,
       );

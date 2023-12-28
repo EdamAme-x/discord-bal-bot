@@ -138,10 +138,13 @@ SERVER_ID: ${interaction.guildId} にて商品 ${target.title} が購入され�
         target.user_id,
       ], {
         id: target.user_id,
-        balance: ((await kv.get<Wallet>(["wallet", target.user_id])).value?.balance ?? 0) +
+        balance:
+          ((await kv.get<Wallet>(["wallet", target.user_id])).value?.balance ??
+            0) +
           target.price,
-        username: (await kv.get<Wallet>(["wallet", target.user_id])).value?.username ??
-          target.user_id,
+        username:
+          (await kv.get<Wallet>(["wallet", target.user_id])).value?.username ??
+            target.user_id,
         updated_at: Date.now(),
       });
 

@@ -15,7 +15,8 @@ export const MyWallet = {
       );
       return;
     } else {
-      const value = (await kv.get<Wallet>(["wallet", interaction.user.id])).value;
+      const value =
+        (await kv.get<Wallet>(["wallet", interaction.user.id])).value;
 
       await interaction.reply({
         embeds: [

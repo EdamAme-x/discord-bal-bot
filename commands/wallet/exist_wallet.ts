@@ -28,7 +28,10 @@ export const ExistWallet = {
       await interaction.reply(
         `**[INFO]** このユーザーはウォレットを作成しています。
 残高: ${
-          (await kv.get<Wallet>(["wallet", interaction.options.data[0].user?.id ?? ""]))
+          (await kv.get<Wallet>([
+            "wallet",
+            interaction.options.data[0].user?.id ?? "",
+          ]))
             .value
             ?.balance ?? 0
         } 人民元

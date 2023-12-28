@@ -85,7 +85,10 @@ export const AddMoney = {
         `**[SUCCESS]** <@${interaction.options.data[0].user?.id}> に${
           parseFloat(interaction.options.data[1].value?.toString() ?? "0")
         }人民元を発行、振込しました。 \n 残金: ${
-          (await kv.get<Wallet>(["wallet", interaction.options.data[0].user?.id ?? ""]))
+          (await kv.get<Wallet>([
+            "wallet",
+            interaction.options.data[0].user?.id ?? "",
+          ]))
             .value?.balance
         }人民元 `,
       );

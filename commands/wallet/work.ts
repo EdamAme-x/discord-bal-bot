@@ -17,7 +17,7 @@ export const Work = {
           .value == null
       ) {
         await kv.set(["wallet", interaction.user?.id], {
-          balance: 50,
+          balance: 20,
           id: interaction.user?.id,
           updated_at: Date.now(),
           username: interaction.user?.username,
@@ -26,7 +26,7 @@ export const Work = {
         await interaction.reply(
           `**[INFO]**
 ウォレットを持っていなかった為作成しました。
-残金: 50 人民元
+残金: 20 人民元
 もう一度 \`/work\` を実行して下さい。
           `,
         );
@@ -60,7 +60,8 @@ export const Work = {
       const work = genInt(15, 25);
 
       await kv.set(["wallet", interaction.user?.id], {
-        balance: ((await kv.get<Wallet>(["wallet", interaction.user?.id])).value?.balance ?? 0) +
+        balance: ((await kv.get<Wallet>(["wallet", interaction.user?.id])).value
+          ?.balance ?? 0) +
           work,
         id: interaction.user?.id,
         updated_at: Date.now(),
@@ -73,7 +74,8 @@ export const Work = {
 
       await interaction.reply(
         `**[SUCCESS]** <@${interaction.user?.id}> に ${work}人民元を支給しました。 \n残金: ${
-          (await kv.get<Wallet>(["wallet", interaction.user?.id])).value?.balance ??
+          (await kv.get<Wallet>(["wallet", interaction.user?.id])).value
+            ?.balance ??
             0
         }人民元 `,
       );

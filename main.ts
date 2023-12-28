@@ -22,12 +22,12 @@ import { ExistWallet } from "./commands/wallet/exist_wallet.ts";
 import { Transfer } from "./commands/wallet/transfer.ts";
 import { MyWallet } from "./commands/wallet/my_wallet.ts";
 import { Work } from "./commands/wallet/work.ts";
-import { VenAdd } from "./commands/ven_add.ts";
+import { VenAdd } from "./commands/ven/ven_add.ts";
 import { VenRemove } from "./commands/ven/ven_remove.ts";
 import { ListVen } from "./commands/ven/list_ven.ts";
-import { VenBuy } from "./commands/ven_buy.ts";
-import { VenRole } from "./commands/ven_role.ts";
-import { VenReset } from "./commands/ven_reset.ts";
+import { VenBuy } from "./commands/ven/ven_buy.ts";
+import { VenRole } from "./commands/ven/ven_role.ts";
+import { VenReset } from "./commands/ven/ven_reset.ts";
 import { RemovePower } from "./commands/wallet/remove_power.ts";
 import { BackUpData } from "./commands/admin/backup_data.ts";
 

@@ -85,7 +85,10 @@ export const RemoveMoney = {
         `**[SUCCESS]** <@${interaction.options.data[0].user?.id}> から${
           parseFloat(interaction.options.data[1].value?.toString() ?? "0")
         }人民元を削除、没収しました。 \n 残金: ${
-          (await kv.get<Wallet>(["wallet", interaction.options.data[0].user?.id ?? ""]))
+          (await kv.get<Wallet>([
+            "wallet",
+            interaction.options.data[0].user?.id ?? "",
+          ]))
             .value?.balance ?? 0
         }人民元 `,
       );

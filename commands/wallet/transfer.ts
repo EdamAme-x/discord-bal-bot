@@ -80,17 +80,19 @@ export const Transfer = {
 
         if (
           parseFloat(interaction.options.data[1].value?.toString() ?? "0") >
-            ((await kv.get<Wallet>(["wallet", interaction.user.id])).value?.balance ?? 0)
+            ((await kv.get<Wallet>(["wallet", interaction.user.id])).value
+              ?.balance ?? 0)
         ) {
           await interaction.reply(
             "**[ERROR]** 送金額は残高より少ない値を入力して下さい。",
           );
           return;
         } else {
-          const myWallet = ((await kv.get<Wallet>(["wallet", interaction.user.id])).value
-            ?.balance ?? 0) - parseFloat(
-              interaction.options.data[1].value?.toString() ?? "0",
-            );
+          const myWallet =
+            ((await kv.get<Wallet>(["wallet", interaction.user.id])).value
+              ?.balance ?? 0) - parseFloat(
+                interaction.options.data[1].value?.toString() ?? "0",
+              );
           const targetWallet = ((await kv.get<Wallet>([
             "wallet",
             interaction.options.data[0].user?.id ?? "",

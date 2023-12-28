@@ -32,7 +32,9 @@ export const BackUpData = {
       "backup/backup_data." + now + ".json",
       data,
     );
-    await interaction.reply(`**[SUCCESS]** データをバックアップ完了。\n\`/backup/backup_data.${now}.json\`に保存しました。`);
+    await interaction.reply(
+      `**[SUCCESS]** データをバックアップ完了。\n\`/backup/backup_data.${now}.json\`に保存しました。`,
+    );
   },
   tags: ["管理コマンド"],
 };
