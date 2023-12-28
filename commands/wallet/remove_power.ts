@@ -1,6 +1,7 @@
 /// <reference lib="deno.unstable" />
 import "https://deno.land/std@0.191.0/dotenv/load.ts";
 const { ADMIN_ID } = Deno.env.toObject();
+import { Wallet } from "../../types/all.d.ts";
 
 import { CommandInteraction } from "@djs";
 

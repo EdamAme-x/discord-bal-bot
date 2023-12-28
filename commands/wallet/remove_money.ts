@@ -1,6 +1,7 @@
 /// <reference lib="deno.unstable" />
 import "https://deno.land/std@0.191.0/dotenv/load.ts";
 const { ADMIN_ID } = Deno.env.toObject();
+import { Wallet } from "../../types/all.d.ts";
 
 import { CommandInteraction } from "@djs";
 
@@ -51,14 +52,14 @@ export const RemoveMoney = {
         // @ts-ignore
         parseInt(interaction.options.data[1].value?.toString());
 
-        if (parseInt(interaction.options.data[1].value?.toString()) < 0) {
+        if (parseInt(interaction.options.data[1].value?.toString() ?? "0") < 0) {
           await interaction.reply(
             "**[ERROR]** 価格は0以上の数値を入力して下さい。",
           );
           return;
         }
 
-        if (isNaN(parseInt(interaction.options.data[1].value?.toString()))) {
+        if (isNaN(parseInt(interaction.options.data[1].value?.toString() ?? "_NaN_"))) {
           await interaction.reply(
             "**[ERROR]** 価格は数値を入力して下さい。",
           );

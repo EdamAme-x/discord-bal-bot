@@ -1,5 +1,6 @@
 import { CommandInteraction } from "@djs";
 import "https://deno.land/std@0.191.0/dotenv/load.ts";
+import { Wallet } from "../../types/all.d.ts";
 
 export const ExistWallet = {
   title: "exist_wallet",

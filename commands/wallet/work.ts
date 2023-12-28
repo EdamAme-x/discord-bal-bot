@@ -1,13 +1,13 @@
 /// <reference lib="deno.unstable" />
 import { CommandInteraction } from "@djs";
-
+import { Wallet } from "../../types/all.d.ts";
 function genInt(min = 0, max = 100): number {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
 export const Work = {
   title: "work",
-  description: "祖国の為に労働 15~25人民元が手に入る",
+  description: "祖国の為に労働 5~20人民元が手に入る",
   handler: async (interaction: CommandInteraction) => {
     const kv = await Deno.openKv();
 
@@ -57,7 +57,7 @@ export const Work = {
         }
       }
 
-      const work = genInt(15, 25);
+      const work = genInt(5, 20);
 
       await kv.set(["wallet", interaction.user?.id], {
         balance: ((await kv.get<Wallet>(["wallet", interaction.user?.id])).value

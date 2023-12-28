@@ -1,5 +1,6 @@
 import { CommandInteraction, EmbedBuilder } from "@djs";
 import "https://deno.land/std@0.191.0/dotenv/load.ts";
+import { Wallet } from "../../types/all.d.ts";
 
 export const MyWallet = {
   title: "my_wallet",

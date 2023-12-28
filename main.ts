@@ -85,7 +85,13 @@ client.on("ready", () => {
 client.on("interactionCreate", async (interaction: Interaction) => {
   // Command
   if (!interaction.isChatInputCommand()) return;
-
+  Logger.log(`${
+    Logger.green(Logger.bold(`[${new Date(Date.now() - 1).toLocaleString()}]`))
+  } Call ${Logger.green(Logger.bold("/" + interaction.commandName))} by ${
+    Logger.bold(interaction.user?.id ?? "")
+  }:${
+    interaction.guildId ?? ""
+  } `);
   await router.router(interaction.commandName, interaction, client);
 });
 
