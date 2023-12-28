@@ -16,13 +16,13 @@ export const CreateWallet = {
       }
 
       await kv.set(["wallet", interaction.user.id], {
-        balance: 20,
+        balance: 0,
         id: interaction.user.id,
         updated_at: Date.now(),
         username: interaction.user.username,
       });
       await interaction.reply(
-        `**[SUCCESS]** <@${interaction.user.id}> のウォレットを作成しました。 \n残金: 20人民元 `,
+        `**[SUCCESS]** <@${interaction.user.id}> のウォレットを作成しました。 \n残金: 0人民元 `,
       );
     } catch (_error) {
       await interaction.reply("**[ERROR]** 作成に失敗しました。");

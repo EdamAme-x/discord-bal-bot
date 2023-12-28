@@ -17,7 +17,7 @@ export const Work = {
           .value == null
       ) {
         await kv.set(["wallet", interaction.user?.id], {
-          balance: 20,
+          balance: 0,
           id: interaction.user?.id,
           updated_at: Date.now(),
           username: interaction.user?.username,
@@ -26,7 +26,7 @@ export const Work = {
         await interaction.reply(
           `**[INFO]**
 ウォレットを持っていなかった為作成しました。
-残金: 20 人民元
+残金: 0 人民元
 もう一度 \`/work\` を実行して下さい。
           `,
         );
