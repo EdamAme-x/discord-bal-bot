@@ -86,12 +86,20 @@ export const VenBuy = {
 
         member.roles.cache.add(roleId);
 
+        await kv.set([
+          "wallet", interaction.user?.id,
+        ], {
+          balance: user.balance - target.price,
+          id: interaction.user?.id,
+          updated_at: Date.now(),
+          username: interaction.user?.username,
+        })
+
         await interaction.reply(
           `**[SUCCESS]** ${target.title} を購入しました。 残高：${
             user.balance - target.price
           }人民元`,
         );
-        return;
       } catch (_error) {
         console.log(_error);
         await interaction.reply(
