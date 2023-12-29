@@ -92,7 +92,11 @@ client.on("interactionCreate", async (interaction: Interaction) => {
   }:${
     interaction.guildId ?? ""
   } `);
-  await router.router(interaction.commandName, interaction, client);
+  try {
+    await router.router(interaction.commandName, interaction, client);
+  }catch(e) {
+    Logger.log(e, "ERROR");
+  }
 });
 
 client.login(TOKEN);

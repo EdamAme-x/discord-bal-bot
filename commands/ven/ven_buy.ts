@@ -92,6 +92,7 @@ export const VenBuy = {
           }人民元`,
         );
       } catch (_error) {
+        console.log(_error);
         await interaction.reply(
           `**[ERROR]** 購入に失敗しました。既にロールを持っている or 既に消されている可能性があります。`,
         );
