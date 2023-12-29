@@ -91,10 +91,11 @@ export const VenBuy = {
             user.balance - target.price
           }人民元`,
         );
+        return;
       } catch (_error) {
         console.log(_error);
         await interaction.reply(
-          `**[ERROR]** 購入に失敗しました。既にロールを持っている or 既に消されている可能性があります。`,
+          `**[ERROR]** 購入に失敗しました。既にロールを持っている or 既に消されている or 不具合の可能性があります。`,
         );
       }
       return;
